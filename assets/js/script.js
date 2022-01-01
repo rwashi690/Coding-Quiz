@@ -2,27 +2,87 @@
 var timerElement =document.querySelector(".timer-count");
 var startElement = document.querySelector('.start-button');
 var endElement = document.querySelector('.end-button');
-var correct = document.querySelector(".correct")
+var correct = document.querySelector(".correct");
+var btn = document.querySelector(".btn");
+var btn_active = document.getElementsByClassName('disabled')
 
-// var timeNow= new Date()
+var n = localStorage.getItem('count');
+
+// Check if DOM is loaded before loading buttons so get the appropriate start and end time
+document.addEventListener('DOMContentLoaded', function(event) {
+    while (btn_active[0]) {
+        btn_active[0].classList.remove('disabled')
+    }
+    // Create a timer
+    start=localStorage.getItem('startTime_sec');
+    var timer_ms = new Date().getTime()-start;
+    var timer = Math.floor(timer_ms / 1000);
+    document.getElementsByClassName('timer-count').innerText = timer
+});
+
+// Check if answer is correct
+function winCount(){
+    localStorage.setItem("count", n+1);
+}
 
 function startGame(){
+    // Before starting the game clear the win count and previous time
+    localStorage.removeItem("count");
     localStorage.removeItem('startTime');
+    localStorage.removeItem('startTime_ms');
+    // Mark the starting time
     localStorage.setItem('startTime', new Date());
+    localStorage.setItem('startTime_ms', new Date().getTime());
 }
 
 function endGame(){
+    localStorage.removeItem('endTime');
+    localStorage.removeItem('endTime_ms');
     localStorage.setItem('endTime', new Date());
+    localStorage.setItem('endTime_ms', new Date().getTime());
 }
 
+function calculateScore(initals){
+    var initials = window.prompt("Enter your initials here");
+    var startedTime=localStorage.getItem('startTime_ms');
+    var finishedTime=localStorage.getItem('endTime_ms');
+    var timeBonus_ms = finishedTime-startedTime;
+    var correctString=localStorage.getItem('count');
+    if (correctString != 'undefined'){
+        var correctCount=correctString.length;
+    }
+    var timeBonus=600-timeBonus_ms/1000;
+    if (timeBonus >0){
+        var totalScore=timeBonus+correctCount;
+        localStorage.setItem("is", initials);
+        localStorage.setItem("ts", totalScore);
+        document.getElementsByClassName('initialScore').innerText = initials + totalScore;
+    } else{
+        var totalScore=correctCount;
+        localStorage.setItem("is", initials);
+        localStorage.setItem("ts", totalScore);
+        document.getElementsByClassName('initialScore').innerText = initials + totalScore;
+    }
+}
+
+//Create event listeners to start and end game
 
 if (startElement){
     startElement.addEventListener("click", startGame);
 }
-if (endElement){
-    endElement.addEventListener("click", endGame);
+
+if (correct){
+    correct.addEventListener("click", winCount);
 }
 
+if (endElement){
+    endElement.addEventListener("click", endGame);
+    endElement.addEventListener("click", calculateScore);
+}
+
+if (initials != "undefined"){
+    calculateScore(initials);
+}
 // function endGame(){
 //     var startingTime=localStorage.getItem('startTime');
 //     localStorage.setItem('endTime', timeNow-startingTime)
