@@ -79,7 +79,7 @@ if (endElement){
     endElement.addEventListener("click", endGame);
     endElement.addEventListener("click", calculateScore);
 }
-
+var initials=localStorage.getItem('is');
 if (initials != "undefined"){
     calculateScore(initials);
 }
