@@ -13,10 +13,20 @@
         <div class="container">
           <h1 class="display-4">Java Script Coding Quiz</h1>
           <p class="lead">Test you coding skills and play the coding quiz?</p>
-          <a href="./highscore.html" class="btn btn-primary float-left top-buffer disabled">High Scores</a>
-          <a href="./question1.html" class="start-button btn btn-primary float-right top-buffer disabled">Start</a>
+          <a class="btn btn-primary float-left top-buffer disabled" id="high-scores">High Scores</a>
+          <a class="btn btn-primary float-right top-buffer disabled" id="start-button">Start</a>
+          <h4 class="float-right" id="timer-count">0</h4>
         </div>
-    </div>   
+    </div> 
+    <div class="card container">
+        <div class="card-body">
+              <h5 class="card-title" id="givenQuestion"></h5>
+              <div id="choices">
+              </div>
+
+        </div>
+    </div>
+
     
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
