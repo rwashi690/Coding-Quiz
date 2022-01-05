@@ -12,7 +12,11 @@ var questionElement = document.getElementById('givenQuestion');
 var choicesElement = document.getElementById('choices');
 
 
+var shuffleQuestions
+var currentQuestionIndex
+
 document.getElementById('timer-count').hidden=true;
+document.getElementById('question_container').hidden=true;
 
 // Check if DOM is loaded before loading buttons so get the appropriate start and end time
 document.addEventListener('DOMContentLoaded', function(event) {
@@ -30,44 +34,63 @@ function startGame(){
     document.getElementById("start-button").hidden=true;
     document.getElementById("high-scores").hidden=true;
     document.getElementById('timer-count').hidden=false;
-    for (var i=0; i< questionBank.length; i++){
-        var question = questionBank[i].Questions;
-        var choices = questionBank[i].PossibleAnswers;
-        var correct = questionBank[i].Answer;
+    shuffledQuestions = questionBank.sort(() => Math.random()-.5) //This shuffles the questions it will either give us a number above or below zero 50% of the time making sure the questions are sorted differently each time
+    currentQuestionIndex =0
+    document.getElementById('question_container').hidden=false;
+    setNextQuestion()
+}
 
-        
-    } 
+function setNextQuestion(){
+    showQuestion(shuffledQuestions[currentQuestionIndex])
+}
 
+function selectAnswer(){
 
 }
 
+function showQuestion(Question){
+    // for (var i=0; i< questionBank.length; i++){
+    //     var question = questionBank[i].Question;
+    //     var choices = questionBank[i].PossibleAnswers;
+    //     var correct = questionBank[i].Answer;
+    // } 
+    questionElement.innerText=Question.Question
+    for (var i=0;i<Question.PossibleAnswers.length;i++){
+        var button = document.createElement('button');
+        button.innerText=Question.PossibleAnswers;
+        button.classList.add('btn');
+    }
+}
+
+
+// Event Listeners
 startElement.addEventListener("click", startGame);
 
 
 // Make an object of Questions
 var questionBank= [
     {
-        "Questions":"Commonly used data types within JavaScript are the following ...", 
+        "Question":"Commonly used data types within JavaScript are the following ...", 
         "PossibleAnswers":["Booleans, Numbers, and Strings","Integers, Numbers, and Strings", "Variables, Dictionaries, and Numbers", "True or False, Integers, and Variables"],
         "Answer":"Booleans, Numbers, and Strings",
     },
     {
-        "Questions":"What kind of variable can store multiple values in JavaScript?", 
+        "Question":"What kind of variable can store multiple values in JavaScript?", 
         "PossibleAnswers":["String", "Dictionary","Object", "Array"],
         "Answer":"Object",
     },
     {
-        "Questions":"Commonly used data types within JavaScript are the following ...", 
+        "Question":"Commonly used data types within JavaScript are the following ...", 
         "PossibleAnswers":["Parenthesis ()", "Quotation Marks'' ", "Curly Brackets {}", "Square Brackets []"],
         "Answer":"Curly Brackets {}",
     },
     {
-        "Questions":"Booleans are either ______ or ______.", 
+        "Question":"Booleans are either ______ or ______.", 
         "PossibleAnswers":["Right/Left", "Yes/No", "Correct/Incorrect", "True/False"],
         "Answer":"True/False",
     },
     {
-        "Questions":"", 
+        "Question":"", 
         "PossibleAnswers":["Numbers", "Strings", "Booleans", "All of the above"],
         "Answer":"All of the above",
     }
