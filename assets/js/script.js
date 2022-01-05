@@ -6,73 +6,12 @@ var questionElement = document.getElementById('givenQuestion');
 var choicesElement = document.getElementById('choices');
 var correctElement = document.getElementById('win-count');
 
-
+// Define variables for app functionality
 var shuffleQuestions;
 var currentQuestionIndex;
 var correctCounter = 0;
 
-timerElement.hidden=true;
-correctElement.hidden=true;
-document.getElementById('question_container').hidden=true;
-
-// Check if DOM is loaded before loading buttons so get the appropriate start and end time
-document.addEventListener('DOMContentLoaded', function(event) {
-    while (btn_active[0]) {
-        btn_active[0].classList.remove('disabled')
-    }
-});
-
-function startGame(){
-    // start=localStorage.getItem('startTime_sec');
-    let timerid = setInterval(()=>{
-        document.getElementById('timer-count').textContent=parseInt(document.getElementById('timer-count').textContent)-1;
-    }, 1000);
-    setTimeout(() => { clearInterval(timerId); alert('TIme is up!'); }, 600*1000); //Stop after 10 minutes
-    document.getElementById("start-button").hidden=true;
-    document.getElementById("high-scores").hidden=true;
-    document.getElementById('timer-count').hidden=false;
-    shuffledQuestions = questionBank.sort(() => Math.random()-.5) //This shuffles the questions it will either give us a number above or below zero 50% of the time making sure the questions are sorted differently each time
-    currentQuestionIndex =0
-    document.getElementById('question_container').hidden=false;
-    setNextQuestion()
-}
-
-function setNextQuestion(){
-    showQuestion(shuffledQuestions[currentQuestionIndex])
-}
-
-function selectAnswer(event){
-
-}
-
-function showQuestion(Question){
-    // for (var i=0; i< questionBank.length; i++){
-    //     var question = questionBank[i].Question;
-    //     var choices = questionBank[i].PossibleAnswers;
-    //     var correct = questionBank[i].Answer;
-    // } 
-    questionElement.innerText=Question.Question
-    Question.Answers.forEach(answer => {
-        var button = document.createElement('button');
-        button.textContent =answer.text;
-        button.classList.add('btn', 'btn-outline-success', 'btn-block', 'btn-lg');
-        if (answer.correct){
-            button.dataset.correct=answer.correct
-            // correctCounter++
-            // correctElement.hidden=true;
-            // correctElement.textContent = correctCounter;
-         }
-        button.addEventListener("click", selectAnswer)
-        choicesElement.appendChild(button)
-    })
-}
-
-
-// Event Listeners
-startElement.addEventListener("click", startGame);
-
-
-// Make an object of Questions
+// Make an object to hold a bank of questions
 var questionBank= [
     {
         "Question":"Commonly used data types within JavaScript are the following ...",
@@ -121,11 +60,87 @@ var questionBank= [
     }
 ]
 
+// Hide elements that are not yet to be displayed on the HTML
+timerElement.hidden=true;
+correctElement.hidden=true;
+document.getElementById('question_container').hidden=true;
+
+// Check if DOM is loaded before allowing buttons to be clicked so game actually works
+document.addEventListener('DOMContentLoaded', function(event) {
+    while (btn_active[0]) {
+        btn_active[0].classList.remove('disabled')
+    }
+});
+
+// Create a function that will execute upon hitting the start button
+function startGame(){
+    let timerid = setInterval(()=>{
+        document.getElementById('timer-count').textContent=parseInt(document.getElementById('timer-count').textContent)-1;
+    }, 1000);
+    setTimeout(() => { clearInterval(timerId); alert('TIme is up!'); }, 600*1000); //Stop after 10 minutes
+    document.getElementById("start-button").hidden=true;
+    document.getElementById("high-scores").hidden=true;
+    document.getElementById('timer-count').hidden=false;
+    shuffledQuestions = questionBank.sort(() => Math.random()-.5) //This shuffles the questions it will either give us a number above or below zero 50% of the time making sure the questions are sorted differently each time
+    currentQuestionIndex = 0
+    var correctCounter = 0;
+    document.getElementById('question_container').hidden=false;
+    setNextQuestion()
+}
+
+// Set the next question and make sure the order is always different when taking the quiz
+function setNextQuestion(){
+    showQuestion(shuffledQuestions[currentQuestionIndex])
+}
+
+// Create a function to create the necessary buttons to display on the HTML page
+function showQuestion(Question){
+    questionElement.innerText=Question.Question
+    Question.Answers.forEach(answer => {
+        var button = document.createElement('button');
+        button.textContent =answer.text;
+        button.classList.add('btn', 'btn-outline-success', 'btn-block', 'btn-lg');
+        if (answer.correct){
+            button.dataset.correct=answer.correct
+         }
+        button.addEventListener("click", selectAnswer)
+        choicesElement.appendChild(button)
+    })
+}
+
+// Execute a event once the correct answer is chosen
+function selectAnswer(event){
+    var selectedButton=event.target;
+    var correct = selectedButton.dataset.correct;
+}
+
+
+// Add Necessary Event Listeners
+startElement.addEventListener("click", startGame);
+
+choicesElement.addEventListener("click", ()=>{
+    currentQuestionIndex++
+    setNextQuestion()
+})
 
 
 
 
 
+
+// Code I tried and didn't work
+
+
+// correctCounter++
+// correctElement.hidden=true;
+// correctElement.textContent = correctCounter;
+
+
+    // for (var i=0; i< questionBank.length; i++){
+    //     var question = questionBank[i].Question;
+    //     var choices = questionBank[i].PossibleAnswers;
+    //     var correct = questionBank[i].Answer;
+    // } 
 
 // // Check if answer is correct
 // function winCount(){
