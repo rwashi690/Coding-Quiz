@@ -58,9 +58,9 @@ function showQuestion(Question){
         button.classList.add('btn', 'btn-outline-success', 'btn-block', 'btn-lg');
         if (answer.correct){
             button.dataset.correct=answer.correct
-            correctCounter++
-            correctElement.hidden=true;
-            correctElement.textContent = correctCounter;
+            // correctCounter++
+            // correctElement.hidden=true;
+            // correctElement.textContent = correctCounter;
          }
         button.addEventListener("click", selectAnswer)
         choicesElement.appendChild(button)
