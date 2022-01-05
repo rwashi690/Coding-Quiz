@@ -1,21 +1,18 @@
 //Define important variables to get from HTML
-// var endElement = document.querySelector('.end-button');
-// var correct = document.querySelector(".correct");
-// var btn = document.querySelector(".btn");
-
-// var n = localStorage.getItem('count');
-
 var timerElement = document.getElementById('timer-count');
 var startElement = document.getElementById('start-button');
 var btn_active = document.getElementsByClassName('disabled');
 var questionElement = document.getElementById('givenQuestion');
 var choicesElement = document.getElementById('choices');
+var correctElement = document.getElementById('win-count');
 
 
-var shuffleQuestions
-var currentQuestionIndex
+var shuffleQuestions;
+var currentQuestionIndex;
+var correctCounter = 0;
 
-document.getElementById('timer-count').hidden=true;
+timerElement.hidden=true;
+correctElement.hidden=true;
 document.getElementById('question_container').hidden=true;
 
 // Check if DOM is loaded before loading buttons so get the appropriate start and end time
@@ -28,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 function startGame(){
     // start=localStorage.getItem('startTime_sec');
     let timerid = setInterval(()=>{
-        document.getElementById('timer-count').textContent=parseInt(document.getElementById('timer-count').textContent)+1;
+        document.getElementById('timer-count').textContent=parseInt(document.getElementById('timer-count').textContent)-1;
     }, 1000);
     setTimeout(() => { clearInterval(timerId); alert('TIme is up!'); }, 600*1000); //Stop after 10 minutes
     document.getElementById("start-button").hidden=true;
@@ -44,7 +41,7 @@ function setNextQuestion(){
     showQuestion(shuffledQuestions[currentQuestionIndex])
 }
 
-function selectAnswer(){
+function selectAnswer(event){
 
 }
 
@@ -55,11 +52,19 @@ function showQuestion(Question){
     //     var correct = questionBank[i].Answer;
     // } 
     questionElement.innerText=Question.Question
-    for (var i=0;i<Question.PossibleAnswers.length;i++){
+    Question.Answers.forEach(answer => {
         var button = document.createElement('button');
-        button.innerText=Question.PossibleAnswers;
-        button.classList.add('btn');
-    }
+        button.textContent =answer.text;
+        button.classList.add('btn', 'btn-outline-success', 'btn-block', 'btn-lg');
+        if (answer.correct){
+            button.dataset.correct=answer.correct
+            correctCounter++
+            correctElement.hidden=true;
+            correctElement.textContent = correctCounter;
+         }
+        button.addEventListener("click", selectAnswer)
+        choicesElement.appendChild(button)
+    })
 }
 
 
@@ -70,29 +75,49 @@ startElement.addEventListener("click", startGame);
 // Make an object of Questions
 var questionBank= [
     {
-        "Question":"Commonly used data types within JavaScript are the following ...", 
-        "PossibleAnswers":["Booleans, Numbers, and Strings","Integers, Numbers, and Strings", "Variables, Dictionaries, and Numbers", "True or False, Integers, and Variables"],
-        "Answer":"Booleans, Numbers, and Strings",
+        "Question":"Commonly used data types within JavaScript are the following ...",
+        "Answers":[
+            {text: "Booleans, Numbers, and Strings", correct:true},
+            {text: "Integers, Numbers, and Strings", correct:false},
+            {text: "Variables, Dictionaries, and Numbers", correct:false},
+            {text: "True or False, Integers, and Variables", correct:false}
+        ]
     },
     {
-        "Question":"What kind of variable can store multiple values in JavaScript?", 
-        "PossibleAnswers":["String", "Dictionary","Object", "Array"],
-        "Answer":"Object",
+        "Question":"What kind of variable can store multiple values in JavaScript?",
+        "Answers":[
+            {text: "String", correct:false},
+            {text: "Dictionary", correct:false},
+            {text: "Object", correct:true},
+            {text: "Array", correct:false}
+        ]
     },
     {
         "Question":"Commonly used data types within JavaScript are the following ...", 
-        "PossibleAnswers":["Parenthesis ()", "Quotation Marks'' ", "Curly Brackets {}", "Square Brackets []"],
-        "Answer":"Curly Brackets {}",
+        "Answers":[
+            {text: "Parenthesis ()", correct:false},
+            {text: "Quotation Marks'' ", correct:false},
+            {text: "Curly Brackets {}", correct:true},
+            {text: "Square Brackets []", correct:false}
+        ]
     },
     {
         "Question":"Booleans are either ______ or ______.", 
-        "PossibleAnswers":["Right/Left", "Yes/No", "Correct/Incorrect", "True/False"],
-        "Answer":"True/False",
+        "Answers":[
+            {text: "Right/Left", correct:false},
+            {text: "Yes/No", correct:false},
+            {text: "Correct/Incorrect", correct:false},
+            {text: "True/False", correct:true}
+        ]
     },
     {
-        "Question":"", 
-        "PossibleAnswers":["Numbers", "Strings", "Booleans", "All of the above"],
-        "Answer":"All of the above",
+        "Question":"Arrays in JavaScript can be used to store what following data types?", 
+        "Answers":[
+            {text: "Numbers", correct:false},
+            {text: "Strings", correct:false},
+            {text: "Booleans", correct:false},
+            {text: "All of the above", correct:true}
+        ]
     }
 ]
 
