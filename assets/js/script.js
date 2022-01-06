@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 // Create a function that will execute upon hitting the start button
 function startGame(){
-    let timerid = setInterval(()=>{
+    let timerId = setInterval(()=>{
         timerElement.textContent=parseInt(timerElement.textContent)-1;
     }, 1000);
     setTimeout(() => { clearInterval(timerId); alert('TIme is up!'); }, 600*1000); //Stop after 10 minutes
@@ -138,12 +138,16 @@ function countCorrect(button){
 }
 
 function finishGame(){
-    // Enter initials in a window.prompt
+    // Enter initials in a window.prompt and get in local storage
     var initials = window.prompt("Enter your initials here");
+    // Currently sets the prompt but need to append to an array of initals rather than resetting
+    localStorage.setItem("is", initials);
     // hide the question container, win counter and timer
     questionContainerElement.hidden=true;
     timerElement.hidden=true;
     correctElement.hidden=true;
+    // Stop the timer and get the time taken -> need to stop timer not functional
+    setTimeout(() => { clearInterval(timerId)});
 }
 
 
@@ -152,6 +156,7 @@ startElement.addEventListener("click", startGame);
 
 choicesElement.addEventListener("click", ()=>{
     currentQuestionIndex++
+    // If we have more questions continue the game -> else finish the game
     if (shuffledQuestions.length > currentQuestionIndex){
         setNextQuestion()
     } else {
