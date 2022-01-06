@@ -130,17 +130,20 @@ function selectAnswer(event){
 }
 
 function countCorrect(button){
-    // preventDefault()
     // Add to the correct counter as when you choose the right choice
     if (button){
-        correctCounter = correctCounter+1/4
+        correctCounter = correctCounter + 1/4;
         correctElement.textContent=correctCounter;
     }
 }
 
 function finishGame(){
-    // 
+    // Enter initials in a window.prompt
     var initials = window.prompt("Enter your initials here");
+    // hide the question container, win counter and timer
+    questionContainerElement.hidden=true;
+    timerElement.hidden=true;
+    correctElement.hidden=true;
 }
 
 
