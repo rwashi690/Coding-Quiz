@@ -85,8 +85,8 @@ function startGame(){
     timerElement.hidden=false;
     correctElement.hidden=false;
     shuffledQuestions = questionBank.sort(() => Math.random()-.5) //This shuffles the questions it will either give us a number above or below zero 50% of the time making sure the questions are sorted differently each time
-    currentQuestionIndex = 0
-    var correctCounter = 0;
+    currentQuestionIndex = 0;
+    correctCounter = 0;
     questionContainerElement.hidden=false;
     setNextQuestion()
 }
@@ -106,10 +106,10 @@ function removePreviousChoices(){
 
 // Create a function to create the necessary buttons to display on the HTML page
 function showQuestion(Question){
-    questionElement.innerText=Question.Question
+    questionElement.innerText=Question.Question;
     Question.Answers.forEach(answer => {
         var button = document.createElement('button');
-        button.textContent =answer.text;
+        button.innerText =answer.text;
         button.classList.add('btn', 'btn-outline-success', 'btn-block', 'btn-lg');
         if (answer.correct){
             button.dataset.correct=answer.correct
@@ -122,28 +122,38 @@ function showQuestion(Question){
 // Execute a event once the correct answer is chosen
 function selectAnswer(event){
     var selectedButton=event.target;
-    var correct = selectedButton.dataset.correct;
+    var correctChoice = selectedButton.dataset.correct;
     // loop through all of the children in the answer buttons
     Array.from(choicesElement.children).forEach(button =>{
-        countCorrect(button, button.dataset.correct);
+        countCorrect(correctChoice);
     })
 }
 
-function countCorrect(btn_element, correct){
+function countCorrect(button){
+    // preventDefault()
     // Add to the correct counter as when you choose the right choice
-    if (correct){
-        correctCounter++
+    if (button){
+        correctCounter = correctCounter+1/4
         correctElement.textContent=correctCounter;
-        console.log(correctCounter)
     }
 }
+
+function finishGame(){
+    // 
+    var initials = window.prompt("Enter your initials here");
+}
+
 
 // Add Necessary Event Listeners
 startElement.addEventListener("click", startGame);
 
 choicesElement.addEventListener("click", ()=>{
     currentQuestionIndex++
-    setNextQuestion()
+    if (shuffledQuestions.length > currentQuestionIndex){
+        setNextQuestion()
+    } else {
+        finishGame()
+    }
 })
 
 
