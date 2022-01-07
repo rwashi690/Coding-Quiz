@@ -13,6 +13,10 @@ var shuffleQuestions;
 var currentQuestionIndex;
 var correctCounter = 0;
 
+
+// Make a variable for the timerid
+var timerId;
+
 // Make an object to hold a bank of questions
 var questionBank= [
     {
@@ -74,9 +78,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
 });
 
+
+
 // Create a function that will execute upon hitting the start button
 function startGame(){
-    let timerId = setInterval(()=>{
+    timerId = setInterval(()=>{
         timerElement.textContent=parseInt(timerElement.textContent)-1;
     }, 1000);
     setTimeout(() => { clearInterval(timerId); alert('TIme is up!'); }, 600*1000); //Stop after 10 minutes
@@ -141,13 +147,29 @@ function finishGame(){
     // Enter initials in a window.prompt and get in local storage
     var initials = window.prompt("Enter your initials here");
     // Currently sets the prompt but need to append to an array of initals rather than resetting
-    localStorage.setItem("is", initials);
+    // localStorage.setItem("is", initials);
     // hide the question container, win counter and timer
     questionContainerElement.hidden=true;
     timerElement.hidden=true;
     correctElement.hidden=true;
+    startElement.hidden=false;
+    highScoreButton.hidden=false;
     // Stop the timer and get the time taken -> need to stop timer not functional
     setTimeout(() => { clearInterval(timerId)});
+    // Collect the time from the timer
+    var totalTime = parseInt(timerElement.textContent);
+    var totalScore = parseInt(correctElement.textContent);
+    var totalWrong= 5-totalScore;
+    // Do local storage
+    // Grab the item
+    if ("is" in localStorage){
+        let initialInfo=JSON.parse(localStorage.getItem("is"));
+        initialInfo.push({initials, totalScore});
+        localStorage.setItem("is", JSON.stringify(initialInfo));
+    } else{
+        const tempArray= [{initials, totalScore}];
+        localStorage.setItem("is", JSON.stringify(tempArray));
+    }
 }
 
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,27 +8,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
     <title>JS Coding Quiz</title>
 </head>
-<body>  
+
+<body>
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-          <h1 class="display-4">Coding Quiz High Scores</h1>
-          <a href="./index.html" class="btn btn-primary float-left top-buffer">Back to Home</a>
+            <h1 class="display-4">Coding Quiz High Scores</h1>
+            <a href="./index.html" class="btn btn-primary float-left top-buffer">Back to Home</a>
         </div>
     </div>
     <div class="card container">
-        <div class="card-header">
-            <b class="float-left">Initials:</b>
-            <b class="float-right">Score</b>
-            <b class="float-left initialScore"></b>
-        </div>
-        <div class="card-body">
-            
-        </div>
-    </div>   
-    
+        <table id="ScoreContainer">
+            <tr>
+                <th>Initials:</th>
+                <th>Score</th>
+            </tr>
+        </table>
+    </div>
+
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script src ="./assets/js/script.js"></script>
+<script src="./assets/js/score_script.js"></script>
+
 </html>
