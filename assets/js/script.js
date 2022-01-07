@@ -158,8 +158,10 @@ function finishGame(){
     setTimeout(() => { clearInterval(timerId)});
     // Collect the time from the timer
     var totalTime = parseInt(timerElement.textContent);
-    var totalScore = parseInt(correctElement.textContent);
-    var totalWrong= 5-totalScore;
+    var totalRight = parseInt(correctElement.textContent);
+    var totalWrong= 5-totalRight;
+    // Calculate the score 
+    var totalScore = totalTime-(totalWrong*10)
     // Do local storage
     // Grab the item
     if ("is" in localStorage){
