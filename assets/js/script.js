@@ -29,16 +29,16 @@ var questionBank= [
         ]
     },
     {
-        "Question":"What kind of variable can store multiple values in JavaScript?",
+        "Question":"What can store multiple values in JavaScript?",
         "Answers":[
             {text: "String", correct:false},
-            {text: "Dictionary", correct:false},
-            {text: "Object", correct:true},
-            {text: "Array", correct:false}
+            {text: "Booleans", correct:false},
+            {text: "Arrays", correct:true},
+            {text: "Numbers", correct:false}
         ]
     },
     {
-        "Question":"Commonly used data types within JavaScript are the following ...", 
+        "Question":"If-Else statements and functions are enclosed using...", 
         "Answers":[
             {text: "Parenthesis ()", correct:false},
             {text: "Quotation Marks'' ", correct:false},
